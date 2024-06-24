@@ -19,15 +19,21 @@
             font-size: 1em;
             cursor: pointer;
         }
+        #message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: red;
+        }
     </style>
 </head>
 <body>
     <h1>OAuth Verifier</h1>
     <p id="verifier"></p>
-    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <p id="message" style="display: none;">No oauth_verifier found in URL</p>
+    <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
 
     <script>
-        // Функція для отримання параметрів з URL
+        // Function to get query parameters from URL
         function getQueryParams() {
             let params = {};
             let queryString = window.location.search.substring(1);
@@ -39,26 +45,27 @@
             return params;
         }
 
-        // Отримуємо параметри з URL
+        // Get query parameters from URL
         let queryParams = getQueryParams();
-        // Отримуємо значення oauth_verifier
+        // Get the value of oauth_verifier
         let oauthVerifier = queryParams["oauth_verifier"];
 
-        // Відображаємо oauth_verifier на сторінці
-        document.getElementById("verifier").innerText = oauthVerifier ? oauthVerifier : "oauth_verifier не знайдено в URL";
+        // Display oauth_verifier or message if not found
+        if (oauthVerifier) {
+            document.getElementById("verifier").innerText = oauthVerifier;
+            document.getElementById("copyButton").style.display = "inline-block";
+        } else {
+            document.getElementById("message").style.display = "block";
+        }
 
-        // Функція для копіювання в буфер обміну
+        // Function to copy to clipboard
         function copyToClipboard() {
             const verifierText = document.getElementById("verifier").innerText;
-            if (verifierText && verifierText !== "oauth_verifier не знайдено в URL") {
-                navigator.clipboard.writeText(verifierText).then(() => {
-                    alert("OAuth Verifier скопійовано в буфер обміну!");
-                }, (err) => {
-                    alert("Не вдалося скопіювати OAuth Verifier: ", err);
-                });
-            } else {
-                alert("Немає OAuth Verifier для копіювання");
-            }
+            navigator.clipboard.writeText(verifierText).then(() => {
+                alert("OAuth Verifier copied to clipboard!");
+            }, (err) => {
+                alert("Failed to copy OAuth Verifier: ", err);
+            });
         }
     </script>
 </body>
