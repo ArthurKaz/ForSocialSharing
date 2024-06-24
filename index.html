@@ -7,13 +7,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            text-align: center;
+            margin-top: 50px;
         }
         #verifier {
             font-size: 1.2em;
             margin-bottom: 20px;
         }
-        button {
+        #copyButton {
             padding: 10px 20px;
             font-size: 1em;
             cursor: pointer;
@@ -23,7 +24,7 @@
 <body>
     <h1>OAuth Verifier</h1>
     <p id="verifier"></p>
-    <button onclick="copyToClipboard()">Copy OAuth Verifier</button>
+    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
 
     <script>
         // Функція для отримання параметрів з URL
@@ -44,4 +45,21 @@
         let oauthVerifier = queryParams["oauth_verifier"];
 
         // Відображаємо oauth_verifier на сторінці
-        document.getElementById("verifier").innerText = oauthVerifier ? oauthVerifier : "oauth_ver
+        document.getElementById("verifier").innerText = oauthVerifier ? oauthVerifier : "oauth_verifier не знайдено в URL";
+
+        // Функція для копіювання в буфер обміну
+        function copyToClipboard() {
+            const verifierText = document.getElementById("verifier").innerText;
+            if (verifierText && verifierText !== "oauth_verifier не знайдено в URL") {
+                navigator.clipboard.writeText(verifierText).then(() => {
+                    alert("OAuth Verifier скопійовано в буфер обміну!");
+                }, (err) => {
+                    alert("Не вдалося скопіювати OAuth Verifier: ", err);
+                });
+            } else {
+                alert("Немає OAuth Verifier для копіювання");
+            }
+        }
+    </script>
+</body>
+</html>
