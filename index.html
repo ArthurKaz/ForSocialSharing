@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Verifier Display</title>
+</head>
+<body>
+    <h1>OAuth Verifier</h1>
+    <p id="verifier"></p>
+
+    <script>
+        // Функція для отримання параметрів з URL
+        function getQueryParams() {
+            let params = {};
+            let queryString = window.location.search.substring(1);
+            let regex = /([^&=]+)=([^&]*)/g;
+            let match;
+            while (match = regex.exec(queryString)) {
+                params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
+            }
+            return params;
+        }
+
+        // Отримуємо параметри з URL
+        let queryParams = getQueryParams();
+        // Отримуємо значення oauth_verifier
+        let oauthVerifier = queryParams['oauth_verifier'];
+
+        // Відображаємо oauth_verifier на сторінці
+        document.getElementById('verifier').innerText = oauthVerifier ? oauthVerifier : 'oauth_verifier не знайдено в URL';
+    </script>
+</body>
+</html>
