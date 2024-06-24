@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OAuth Verifier Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #verifier {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>OAuth Verifier</h1>
     <p id="verifier"></p>
+    <button onclick="copyToClipboard()">Copy OAuth Verifier</button>
 
     <script>
         // Функція для отримання параметрів з URL
@@ -25,10 +41,7 @@
         // Отримуємо параметри з URL
         let queryParams = getQueryParams();
         // Отримуємо значення oauth_verifier
-        let oauthVerifier = queryParams['oauth_verifier'];
+        let oauthVerifier = queryParams["oauth_verifier"];
 
         // Відображаємо oauth_verifier на сторінці
-        document.getElementById('verifier').innerText = oauthVerifier ? oauthVerifier : 'oauth_verifier не знайдено в URL';
-    </script>
-</body>
-</html>
+        document.getElementById("verifier").innerText = oauthVerifier ? oauthVerifier : "oauth_ver
