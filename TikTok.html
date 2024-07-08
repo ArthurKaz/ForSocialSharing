@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth Verifier Display</title>
+    <title>OAuth Code Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        #verifier {
+        #code {
             font-size: 1.2em;
             margin-bottom: 20px;
         }
@@ -27,10 +27,10 @@
     </style>
 </head>
 <body>
-    <h1>OAuth Verifier</h1>
-    <p id="verifier"></p>
+    <h1>OAuth Code</h1>
+    <p id="code"></p>
     <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
-    <p id="message" style="display: none;">No code or state found in URL</p>
+    <p id="message" style="display: none;">No code found in URL</p>
     
     <script>
         // Function to get query parameters from URL
@@ -47,13 +47,12 @@
 
         // Get query parameters from URL
         let queryParams = getQueryParams();
-        // Get the value of code and state
+        // Get the value of code
         let code = queryParams["code"];
-        let state = queryParams["state"];
 
-        // Display code and state or message if not found
-        if (code || state) {
-            document.getElementById("verifier").innerText = `Code: ${code}, State: ${state}`;
+        // Display code or message if not found
+        if (code) {
+            document.getElementById("code").innerText = code;
             document.getElementById("copyButton").style.display = "inline-block";
         } else {
             document.getElementById("message").style.display = "block";
@@ -61,11 +60,11 @@
 
         // Function to copy to clipboard
         function copyToClipboard() {
-            const verifierText = document.getElementById("verifier").innerText;
-            navigator.clipboard.writeText(verifierText).then(() => {
-                alert("OAuth Verifier copied to clipboard!");
+            const codeText = document.getElementById("code").innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert("OAuth Code copied to clipboard!");
             }, (err) => {
-                alert("Failed to copy OAuth Verifier: ", err);
+                alert("Failed to copy OAuth Code: ", err);
             });
         }
     </script>
