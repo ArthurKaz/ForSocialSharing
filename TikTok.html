@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Data Copier</title>
+    <title>OAuth Verifier Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        #data {
+        #verifier {
             font-size: 1.2em;
             margin-bottom: 20px;
         }
@@ -27,11 +27,11 @@
     </style>
 </head>
 <body>
-    <h1>TikTok Data Copier</h1>
-    <p id="data"></p>
-    <p id="message" style="display: none;">No data found in URL</p>
+    <h1>OAuth Verifier</h1>
+    <p id="verifier"></p>
     <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
-
+    <p id="message" style="display: none;">No code or state found in URL</p>
+    
     <script>
         // Function to get query parameters from URL
         function getQueryParams() {
@@ -47,12 +47,13 @@
 
         // Get query parameters from URL
         let queryParams = getQueryParams();
-        // Get the value of tiktok_data
-        let tiktokData = queryParams["tiktok_data"];
+        // Get the value of code and state
+        let code = queryParams["code"];
+        let state = queryParams["state"];
 
-        // Display tiktok_data or message if not found
-        if (tiktokData) {
-            document.getElementById("data").innerText = tiktokData;
+        // Display code and state or message if not found
+        if (code || state) {
+            document.getElementById("verifier").innerText = `Code: ${code}, State: ${state}`;
             document.getElementById("copyButton").style.display = "inline-block";
         } else {
             document.getElementById("message").style.display = "block";
@@ -60,11 +61,11 @@
 
         // Function to copy to clipboard
         function copyToClipboard() {
-            const dataText = document.getElementById("data").innerText;
-            navigator.clipboard.writeText(dataText).then(() => {
-                alert("TikTok Data copied to clipboard!");
+            const verifierText = document.getElementById("verifier").innerText;
+            navigator.clipboard.writeText(verifierText).then(() => {
+                alert("OAuth Verifier copied to clipboard!");
             }, (err) => {
-                alert("Failed to copy TikTok Data: ", err);
+                alert("Failed to copy OAuth Verifier: ", err);
             });
         }
     </script>
