@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth Verifier Display</title>
+    <title>OAuth Parameter Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        #verifier {
+        #parameter {
             font-size: 1.2em;
             margin-bottom: 20px;
         }
@@ -27,9 +27,9 @@
     </style>
 </head>
 <body>
-    <h1>OAuth Verifier</h1>
-    <p id="verifier"></p>
-    <p id="message" style="display: none;">No oauth_verifier found in URL</p>
+    <h1>OAuth Parameter</h1>
+    <p id="parameter"></p>
+    <p id="message" style="display: none;">No valid parameter found in URL (code or oauth_verifier)</p>
     <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
 
     <script>
@@ -47,12 +47,14 @@
 
         // Get query parameters from URL
         let queryParams = getQueryParams();
-        // Get the value of oauth_verifier
+        // Get the value of either code or oauth_verifier
+        let code = queryParams["code"];
         let oauthVerifier = queryParams["oauth_verifier"];
+        let parameter = code || oauthVerifier;
 
-        // Display oauth_verifier or message if not found
-        if (oauthVerifier) {
-            document.getElementById("verifier").innerText = oauthVerifier;
+        // Determine which parameter to display
+        if (parameter) {
+            document.getElementById("parameter").innerText = parameter;
             document.getElementById("copyButton").style.display = "inline-block";
         } else {
             document.getElementById("message").style.display = "block";
@@ -60,11 +62,11 @@
 
         // Function to copy to clipboard
         function copyToClipboard() {
-            const verifierText = document.getElementById("verifier").innerText;
-            navigator.clipboard.writeText(verifierText).then(() => {
-                alert("OAuth Verifier copied to clipboard!");
+            const parameterText = document.getElementById("parameter").innerText;
+            navigator.clipboard.writeText(parameterText).then(() => {
+                alert("OAuth Parameter copied to clipboard!");
             }, (err) => {
-                alert("Failed to copy OAuth Verifier: ", err);
+                alert("Failed to copy OAuth Parameter: ", err);
             });
         }
     </script>
